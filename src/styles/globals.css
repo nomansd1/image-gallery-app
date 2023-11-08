@@ -1,27 +1,42 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+* {
+    font-family: 'Poppins';
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+header {
+    box-shadow: 0 1px 0 #f7f7f7;
+}
+
+header .dropdown__bx .icon {
+    transform: rotate(0deg);
+    transition: all .5s ease;
+}
+
+header .dropdown__bx .icon.active {
+    transform: rotate(90deg);
+}
+
+header .dropdown__bx .dropdown__menu {
+    position: absolute;
+    width: 100%;
+    background-color: green;
+    @apply rounded-md;
+    top: 100%;
+    color: #4a4a4a;
+    transition: all .3s ease;
+    visibility: hidden;
+    opacity: 0;
+}
+.dropdown__bx .dropdown__menu.active {
+    visibility: visible;
+    opacity: 1;
 }
