@@ -59,3 +59,6 @@
     background-color: rgba(255, 255, 255, 0.245); 
     backdrop-filter: blur(1px);
 }
+.active__link {
+    @apply bg-[#167DD3] text-white;
+}
