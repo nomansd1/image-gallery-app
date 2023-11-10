@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import Sidebar from "./Sidebar";
 
 export default function Header() {
     const optionArray = ['Photos', 'Videos'];
     const [openSelect, setOpenSelect] = useState(false);
     const [isSticky, setSticky] = useState(false);
+    const [isSidebar, setSidebar] = useState(false);
 
     const optionSelection = useRef();
 
@@ -43,7 +45,7 @@ export default function Header() {
     return (
         <>
             {isSticky ?
-                <header className={`header px-4 md:px-14 py-4 flex items-center justify-between bg-white transition-all duration-300 ease-linear sticky top-0`}>
+                <header className={`header px-4 md:px-14 py-4 flex items-center justify-between bg-white transition-all duration-300 ease-linear sticky top-0 z-50`}>
                     <div>
                         <Link href="/" className="text-xl font-medium">Logo</Link>
                     </div>
@@ -99,7 +101,7 @@ export default function Header() {
                             </button>
                         </div>
                         <button className="text-base capitalize px-5 rounded-md bg-[#167DD3] hover:bg-[#1471be] text-white h-[50px] font-medium hidden md:inline-flex items-center">join</button>
-                        <button className="ml-2 md:hidden">
+                        <button onClick={() => {setSidebar(true)}} className="ml-2 md:hidden">
                             <svg className="w-7 h-7 text-[#4a4a4a]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke-width="0"></g><g stroke-linecap="round" stroke-linejoin="round"></g><g><g><path d="M5 17H13M5 12H19M11 7H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg>
                         </button>
                     </div>
@@ -122,12 +124,13 @@ export default function Header() {
                             </button>
                         </div>
                         <button className="text-base capitalize px-5 rounded-md bg-white text-[#4a4a4a] h-[40px] md:h-[50px] font-medium">join</button>
-                        <button className="ml-4 md:hidden">
+                        <button onClick={() => {setSidebar(true)}} className="ml-4 md:hidden">
                             <svg className="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke-width="0"></g><g stroke-linecap="round" stroke-linejoin="round"></g><g><g><path d="M5 17H13M5 12H19M11 7H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg>
                         </button>
                     </div>
                 </header>
             }
+            <Sidebar state={isSidebar} onPress={()=>setSidebar(false)}/>
         </>
     )
 }

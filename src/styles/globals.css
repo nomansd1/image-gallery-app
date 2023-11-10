@@ -62,3 +62,11 @@
 .active__link {
     @apply bg-[#167DD3] text-white;
 }
+
+/* for image grid */
+.no__scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.overlay__effect {
+    background: rgba(0,0,0,0.4);
+}

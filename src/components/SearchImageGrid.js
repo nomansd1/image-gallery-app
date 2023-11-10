@@ -1,13 +1,35 @@
-export default function ImageGrid() {
+export default function SearchImageGrid() {
+    const suggestedWords = [
+        'library',
+        'study',
+        'living room',
+        'bat',
+        'halloween',
+        'fight club',
+        'planets',
+        'cosmology',
+        'iphones',
+        'study',
+        'living room',
+        'bat',
+        'halloween'
+    ]
     return (
-        <div className="max-w-screen-xl mx-auto p-7 md:p-14">
-            <div className="flex items-center w-full md:w-fit mx-auto p-3 overflow-auto no__scrollbar">
-                <button className="rounded-full py-2 px-4 outline-none border-none capitalize text-base font-medium active__link">home</button>
-                <button className="rounded-full py-2 px-4 outline-none border-none capitalize text-base font-medium">videos</button>
-                <button className="rounded-full py-2 px-4 outline-none border-none capitalize text-base font-medium">leaderboard</button>
-                <button className="rounded-full py-2 px-4 outline-none border-none capitalize text-base font-medium">challenges</button>
+        <div className="max-w-screen-xl mx-auto p-7">
+            <div className="flex items-center w-full mx-auto overflow-auto no__scrollbar mb-14">
+                {suggestedWords.map((item, index) => (
+                    <button className="px-6 py-2 hover:bg-[#1471BE] hover:text-white border-[#1471BE] border rounded-md mx-1.5 whitespace-nowrap" key={index}>{item}</button>
+                ))}
             </div>
-            <h1 className="text-xl font-medium">Free Stock Photos</h1>
+            <h1 className="text-2xl md:text-4xl font-medium mb-4">Wonderful Library Images</h1>
+            <div className="flex items-center justify-between w-full p-3 overflow-auto no__scrollbar">
+                <div className="flex items-center">
+                    <button className="rounded-full py-2 px-4 outline-none border-none capitalize text-base font-medium active__link">home</button>
+                    <button className="rounded-full py-2 px-4 outline-none border-none capitalize text-base font-medium">videos</button>
+                    <button className="rounded-full py-2 px-4 outline-none border-none capitalize text-base font-medium">leaderboard</button>
+                </div>
+                <button className="px-6 py-2 hover:bg-[#1471BE] hover:text-white border-[#1471BE] border rounded-md mx-1.5 whitespace-nowrap">Filter</button>
+            </div>
             <div class="grid grid-cols-2 md:grid-cols-3 gap-8 mt-8">
                 <div class="grid gap-4">
                     <div className="relative group">
@@ -20,7 +42,7 @@ export default function ImageGrid() {
                                 </button>
                             </div>
                             <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-                                <div className="flex items-center max-w-[140px]">
+                                <div className="items-center max-w-[140px] hidden md:flex">
                                     <img class="w-10 h-10 rounded-full" src="https://t3.ftcdn.net/jpg/02/22/85/16/360_F_222851624_jfoMGbJxwRi5AWGdPgXKSABMnzCQo9RN.jpg" alt="" />
                                     <h1 className="text-sm font-medium text-white ml-2 text-ellipsis whitespace-nowrap overflow-hidden">Justin Topley</h1>
                                 </div>
@@ -44,7 +66,7 @@ export default function ImageGrid() {
                                 </button>
                             </div>
                             <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-                                <div className="flex items-center max-w-[140px]">
+                                <div className="items-center max-w-[140px] hidden md:flex">
                                     <img class="w-10 h-10 rounded-full" src="https://t3.ftcdn.net/jpg/02/22/85/16/360_F_222851624_jfoMGbJxwRi5AWGdPgXKSABMnzCQo9RN.jpg" alt="" />
                                     <h1 className="text-sm font-medium text-white ml-2 text-ellipsis whitespace-nowrap overflow-hidden">Justin Topley</h1>
                                 </div>
@@ -68,7 +90,7 @@ export default function ImageGrid() {
                                 </button>
                             </div>
                             <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-                                <div className="flex items-center max-w-[140px]">
+                                <div className="hidden md:flex items-center max-w-[140px]">
                                     <img class="w-10 h-10 rounded-full" src="https://t3.ftcdn.net/jpg/02/22/85/16/360_F_222851624_jfoMGbJxwRi5AWGdPgXKSABMnzCQo9RN.jpg" alt="" />
                                     <h1 className="text-sm font-medium text-white ml-2 text-ellipsis whitespace-nowrap overflow-hidden">Justin Topley</h1>
                                 </div>
@@ -94,7 +116,7 @@ export default function ImageGrid() {
                                 </button>
                             </div>
                             <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-                                <div className="flex items-center max-w-[140px]">
+                                <div className="hidden md:flex items-center max-w-[140px]">
                                     <img class="w-10 h-10 rounded-full" src="https://t3.ftcdn.net/jpg/02/22/85/16/360_F_222851624_jfoMGbJxwRi5AWGdPgXKSABMnzCQo9RN.jpg" alt="" />
                                     <h1 className="text-sm font-medium text-white ml-2 text-ellipsis whitespace-nowrap overflow-hidden">Justin Topley</h1>
                                 </div>
@@ -118,7 +140,7 @@ export default function ImageGrid() {
                                 </button>
                             </div>
                             <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-                                <div className="flex items-center max-w-[140px]">
+                                <div className="hidden md:flex items-center max-w-[140px]">
                                     <img class="w-10 h-10 rounded-full" src="https://t3.ftcdn.net/jpg/02/22/85/16/360_F_222851624_jfoMGbJxwRi5AWGdPgXKSABMnzCQo9RN.jpg" alt="" />
                                     <h1 className="text-sm font-medium text-white ml-2 text-ellipsis whitespace-nowrap overflow-hidden">Justin Topley</h1>
                                 </div>
@@ -142,7 +164,7 @@ export default function ImageGrid() {
                                 </button>
                             </div>
                             <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-                                <div className="flex items-center max-w-[140px]">
+                                <div className="hidden md:flex items-center max-w-[140px]">
                                     <img class="w-10 h-10 rounded-full" src="https://t3.ftcdn.net/jpg/02/22/85/16/360_F_222851624_jfoMGbJxwRi5AWGdPgXKSABMnzCQo9RN.jpg" alt="" />
                                     <h1 className="text-sm font-medium text-white ml-2 text-ellipsis whitespace-nowrap overflow-hidden">Justin Topley</h1>
                                 </div>
@@ -168,7 +190,7 @@ export default function ImageGrid() {
                                 </button>
                             </div>
                             <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-                                <div className="flex items-center max-w-[140px]">
+                                <div className="hidden md:flex items-center max-w-[140px]">
                                     <img class="w-10 h-10 rounded-full" src="https://t3.ftcdn.net/jpg/02/22/85/16/360_F_222851624_jfoMGbJxwRi5AWGdPgXKSABMnzCQo9RN.jpg" alt="" />
                                     <h1 className="text-sm font-medium text-white ml-2 text-ellipsis whitespace-nowrap overflow-hidden">Justin Topley</h1>
                                 </div>
@@ -192,7 +214,7 @@ export default function ImageGrid() {
                                 </button>
                             </div>
                             <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-                                <div className="flex items-center max-w-[140px]">
+                                <div className="hidden md:flex items-center max-w-[140px]">
                                     <img class="w-10 h-10 rounded-full" src="https://t3.ftcdn.net/jpg/02/22/85/16/360_F_222851624_jfoMGbJxwRi5AWGdPgXKSABMnzCQo9RN.jpg" alt="" />
                                     <h1 className="text-sm font-medium text-white ml-2 text-ellipsis whitespace-nowrap overflow-hidden">Justin Topley</h1>
                                 </div>
@@ -216,7 +238,7 @@ export default function ImageGrid() {
                                 </button>
                             </div>
                             <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-                                <div className="flex items-center max-w-[140px]">
+                                <div className="hidden md:flex items-center max-w-[140px]">
                                     <img class="w-10 h-10 rounded-full" src="https://t3.ftcdn.net/jpg/02/22/85/16/360_F_222851624_jfoMGbJxwRi5AWGdPgXKSABMnzCQo9RN.jpg" alt="" />
                                     <h1 className="text-sm font-medium text-white ml-2 text-ellipsis whitespace-nowrap overflow-hidden">Justin Topley</h1>
                                 </div>
