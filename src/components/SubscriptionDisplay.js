@@ -7,7 +7,7 @@ export default function SuccessDisplay({ sessionId }) {
                     <h3>Subscription to starter plan successful!</h3>
                 </div>
             </div>
-            <form action="http://localhost:8000/create-portal-session/" method="POST">
+            <form action="http://localhost:8000/api/subscribe/create-checkout-session/" method="POST">
                 <input
                     type="hidden"
                     id="session-id"

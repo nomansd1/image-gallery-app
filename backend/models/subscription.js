@@ -4,6 +4,10 @@ var Subscription = new mongoose.Schema({
         type: String,
         required: true,
     },
+    plan: {
+        type: String,
+        required: true,
+    },
     userEmail: {
         type: String,
         required: true,
@@ -14,7 +18,7 @@ var Subscription = new mongoose.Schema({
     },
     subscriptionId: {
         type: String,
-        required: true,
+        required: false,
     },
     createdAt: {
         type: Date,

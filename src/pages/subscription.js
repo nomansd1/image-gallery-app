@@ -1,81 +1,124 @@
-import React, { useState, useEffect } from 'react';
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
-import "../styles/subscription.module.css"
-import SuccessDisplay from '@/components/SubscriptionDisplay';
-const ProductDisplay = () => (
-    <section>
-        <div className="product">
-            <Logo />
-            <div className="description">
-                <h3>Starter plan</h3>
-                <h5>$20.00 / month</h5>
+
+//app/stripe/page.jsx
+"use client";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import React, { useCallback, useState, useEffect } from "react";
+import getStripe from "../components/getStripe";
+import { NextResponse } from "next/server";
+const stripePromise = getStripe();
+const projectUrl = process.env.NEXTAUTH_URL;
+async function postSubscribe(e) {
+    try {
+        const dataSend = {
+            lookup_key: e.target.lookup_key.value,
+            customerEmail: e.target.user_Email.value,
+        };
+        const jsonSend = JSON.stringify(dataSend);
+        response = await fetch("api/route", {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json", },
+            redirect: "follow",
+            body: jsonSend,
+        });
+        if (response.statusCode === 500) {
+            console.error(response.message);
+            return;
+        }
+        return response;
+    } catch (err) { console.log(`Error when calling postJSON: `, err.message); }
+}
+
+const ProductDisplay = () => {
+    const router = useRouter();
+    const { data: session } = useSession();
+    const userEmail = session?.user.email;
+    const priceLookupKey = process.env.NEXT_PUBLIC_STRIPE_PRICE_KEY;
+    const [loading, setLoading] = useState(false);
+
+    async function getStripeScript() {
+        if (!stripe) { const stripe = await stripePromise; }
+    }
+
+    if (!priceLookupKey || !userEmail || !session) { console.log("Loading..."); }
+
+    return (
+        <section>
+            <div className="product">
+                <div className="description">
+                    <h3>Starter plan</h3>
+                    <h5>$10.00 / month</h5>
+                </div>
             </div>
-        </div>
-        <form action="http://localhost:8000/create-checkout-session" method="POST">
-            {/* Add a hidden field with the lookup_key of your Price */}
-            <input type="hidden" name="lookup_key" value="12345" />
-            <button id="checkout-and-portal-button" type="submit" className='checkout'>
-                Checkout
-            </button>
-        </form>
-    </section>
-);
+            <form action="/api/route" method="POST">
+                {/* Add a hidden field with the lookup_key of the price */}
+                <input
+                    required
+                    type="hidden"
+                    name="lookup_key"
+                    value={priceLookupKey}
+                />
+                {/* Add a hidden field with the customer email */}
+                <input
+                    required
+                    type="hidden"
+                    name="user_Email"
+                    value={userEmail}
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                />
+                <button id="checkout-button" type="submit">
+                    Checkout
+                </button>
+            </form>
+        </section>
+    );
+};
+
+
+const SuccessDisplay = ({ sessionId }) => {
+    return (
+        <section>
+            <div className="product Box-root">
+                <div className="description Box-root">
+                    <h3>Subscription to starter plan successful!</h3>
+                </div>
+            </div>
+            ...
+        </section>
+    );
+};
 
 const Message = ({ message }) => (
     <section>
-        <p className='message'>{message}</p>
+        <p>{message}</p>
     </section>
 );
-export default function Subscription() {
-    let [message, setMessage] = useState('');
+
+const SubscribtionPage = () => {
+    let [message, setMessage] = useState("");
     let [success, setSuccess] = useState(false);
-    let [sessionId, setSessionId] = useState('');
+    let [session_Id, setSessionId] = useState("");
+
     useEffect(() => {
         // Check to see if this is a redirect back from Checkout
         const query = new URLSearchParams(window.location.search);
-        if (query.get('success')) {
+        if (query.get("success")) {
             setSuccess(true);
-            setSessionId(query.get('session_id'));
+            setSessionId(query.get("session_id"));
         }
-
-        if (query.get('canceled')) {
+        if (query.get("canceled")) {
             setSuccess(false);
-            setMessage(
-                "Order canceled -- continue to shop around and checkout when you're ready."
-            );
+            setMessage("Order canceled");
         }
-    }, [sessionId]);
+    }, [session_Id]);
 
-    if (!success && message === '') {
+    if (!success && message === "") {
         return <ProductDisplay />;
-    } else if (success && sessionId !== '') {
-        return <SuccessDisplay sessionId={sessionId} />;
+    } else if (success && session_Id !== "") {
+        return <SuccessDisplay sessionId={session_Id} />;
     } else {
         return <Message message={message} />;
     }
-}
-const Logo = () => (
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        xmlnsXlink="http://www.w3.org/1999/xlink"
-        width="14px"
-        height="16px"
-        viewBox="0 0 14 16"
-        version="1.1"
-    >
-        <defs />
-        <g id="Flow" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-            <g
-                id="0-Default"
-                transform="translate(-121.000000, -40.000000)"
-                fill="#E184DF"
-            >
-                <path
-                    d="M127,50 L126,50 C123.238576,50 121,47.7614237 121,45 C121,42.2385763 123.238576,40 126,40 L135,40 L135,56 L133,56 L133,42 L129,42 L129,56 L127,56 L127,50 Z M127,48 L127,42 L126,42 C124.343146,42 123,43.3431458 123,45 C123,46.6568542 124.343146,48 126,48 L127,48 Z"
-                    id="Pilcrow"
-                />
-            </g>
-        </g>
-    </svg>
-);
+};
+export default SubscribtionPage;

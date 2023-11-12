@@ -1,8 +1,8 @@
-'use-client'
 import React, { useState, useEffect } from "react"
 import ReactModal from "react-modal"
 import SuccessDisplay from "../SubscriptionDisplay";
 import { getUserInfo } from "@/utils/getUser";
+import { BASE_URL } from "@/config/api";
 export default function SubscriptionModal(props) {
     const { isOpen } = props
     let [message, setMessage] = useState('');
@@ -24,6 +24,42 @@ export default function SubscriptionModal(props) {
             );
         }
     }, [sessionId]);
+    const handleCheckout = async (event) => {
+        event.preventDefault();
+        try {
+            // Make an API call to create a checkout session
+            const response = await fetch(`${BASE_URL}/api/subscribe/create-checkout-session`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                body: JSON.stringify({
+                    _id: _id,
+                    email: email,
+                    username: username,
+                    plan: "monthly",
+                    lookup_key: "1234"
+                }),
+            });
+
+            if (response.ok) {
+                // Handle success, redirect to the provided URL
+                const result = await response.json();
+                console.log('Checkout session created:', result);
+
+                // Redirect to the provided URL
+                window.location.href = result.result.redirectUrl;
+            } else {
+                // Handle error
+                console.error('Error creating checkout session');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+
     return (
         <ReactModal
             isOpen={isOpen}
@@ -120,9 +156,9 @@ export default function SubscriptionModal(props) {
                                             </p>
                                         </div>
                                         <div className="mt-[25px]">
-                                            <form action="http://localhost:8000/create-checkout-session/" method="POST">
+                                            <form onSubmit={handleCheckout}>
                                                 {/* Add a hidden field with the lookup_key of your Price */}
-                                                <input type="hidden" name="lookup_key" value="12345" />
+                                                <input type="hidden" name="lookup_key" value="12345" id="lookup_key" />
                                                 <button id="checkout-and-portal-button" type="submit" className='checkout'>
                                                     Checkout
                                                 </button>
