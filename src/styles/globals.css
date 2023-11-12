@@ -4,9 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-
-}
+:root {}
 
 * {
     font-family: 'Poppins';
@@ -40,6 +38,7 @@
     opacity: 0;
     margin-top: 8px;
 }
+
 .dropdown__bx .dropdown__menu.active {
     visibility: visible;
     opacity: 1;
@@ -53,13 +52,16 @@
     object-fit: cover;
     position: relative;
 }
+
 .bg__overlay {
     background-color: rgba(0, 0, 0, 0.3);
 }
+
 .bg__anchor {
-    background-color: rgba(255, 255, 255, 0.245); 
+    background-color: rgba(255, 255, 255, 0.245);
     backdrop-filter: blur(1px);
 }
+
 .active__link {
     @apply bg-[#167DD3] text-white;
 }
@@ -68,6 +70,53 @@
 .no__scrollbar::-webkit-scrollbar {
     display: none;
 }
+
 .overlay__effect {
-    background: rgba(0,0,0,0.4);
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.product {
+    display: flex;
+    flex: 1;
+}
+
+.description {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.message {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: -0.154px;
+    color: #242d60;
+    height: 100%;
+    width: 100%;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.checkout {
+    height: 36px;
+    background: #556cd6;
+    color: white;
+    width: 100%;
+    font-size: 14px;
+    border: 0;
+    font-weight: 500;
+    cursor: pointer;
+    letter-spacing: 0.6;
+    border-radius: 0 0 6px 6px;
+    transition: all 0.2s ease;
+    box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
+}
+
+.checkout:hover {
+    opacity: 0.8;
 }

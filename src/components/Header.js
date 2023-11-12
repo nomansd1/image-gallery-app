@@ -1,6 +1,8 @@
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import Link from 'next/link'
 import Sidebar from "./Sidebar";
+import { getUserInfo } from "@/utils/getUser";
+
 
 export default function Header() {
     const optionArray = ['Photos', 'Videos'];
@@ -18,8 +20,6 @@ export default function Header() {
         console.log('meunu opened');
         setOpenSelect(true);
     }
-
-
     useEffect(() => {
         const handleScroll = () => {
             const scrollPosition = window.scrollY;
@@ -41,7 +41,8 @@ export default function Header() {
         };
     }, []); // Empty dependency array means this effect runs once when the component mounts
 
-
+    const data = getUserInfo()
+    console.log(data);
     return (
         <>
             {isSticky ?
@@ -101,7 +102,7 @@ export default function Header() {
                             </button>
                         </div>
                         <button className="text-base capitalize px-5 rounded-md bg-[#167DD3] hover:bg-[#1471be] text-white h-[50px] font-medium hidden md:inline-flex items-center">join</button>
-                        <button onClick={() => {setSidebar(true)}} className="ml-2 md:hidden">
+                        <button onClick={() => { setSidebar(true) }} className="ml-2 md:hidden">
                             <svg className="w-7 h-7 text-[#4a4a4a]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke-width="0"></g><g stroke-linecap="round" stroke-linejoin="round"></g><g><g><path d="M5 17H13M5 12H19M11 7H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg>
                         </button>
                     </div>
@@ -122,15 +123,18 @@ export default function Header() {
                                     <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
                                 </svg>
                             </button>
-                        </div>
-                        <button className="text-base capitalize px-5 rounded-md bg-white text-[#4a4a4a] h-[40px] md:h-[50px] font-medium">join</button>
-                        <button onClick={() => {setSidebar(true)}} className="ml-4 md:hidden">
+                        </div>{
+                            data ? (<span className="capitalize mr-[15px] px-2 text-white font-medium hidden md:inline-flex">Logout</span>) : (
+                                <button className="text-base capitalize px-5 rounded-md bg-white text-[#4a4a4a] h-[40px] md:h-[50px] font-medium"><Link href="/login">Login</Link></button>
+                            )
+                        }
+                        <button onClick={() => { setSidebar(true) }} className="ml-4 md:hidden">
                             <svg className="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke-width="0"></g><g stroke-linecap="round" stroke-linejoin="round"></g><g><g><path d="M5 17H13M5 12H19M11 7H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg>
                         </button>
                     </div>
                 </header>
             }
-            <Sidebar state={isSidebar} onPress={()=>setSidebar(false)}/>
+            <Sidebar state={isSidebar} onPress={() => setSidebar(false)} />
         </>
     )
 }
