@@ -1,6 +1,6 @@
 
 const multer = require('multer');
-const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
+const Upload = require('../models/images')
 const multerS3 = require('multer-s3');
 const s3 = require('../util/s3.util');
 
@@ -18,11 +18,23 @@ const upload = multer({
 const uploadImageController = async (req, res) => {
     try {
         if (req.file) {
-            console.log(req.file, "req.file=============");
-            // File uploaded successfully
-            res.json({ imageUrl: req.file });
+            if (res) {
+                // File uploaded successfully
+                const imageUrl = req.file
+                const data = {
+                    originalname: imageUrl.originalname,
+                    location: imageUrl.location,
+                }
+                const uploadDocument = new Upload({
+                    images: [data],
+                    category: req.body.category,
+                    tags: [req.body.tag],
+                });
+                // Save the document to the database
+                const savedDocument = await uploadDocument.save();
+                res.status(200).send(savedDocument)
+            }
         } else {
-            // Error uploading file
             res.status(500).json({ error: 'Error uploading file' });
         }
     } catch (error) {

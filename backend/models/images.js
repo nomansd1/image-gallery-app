@@ -3,10 +3,6 @@ var Upload = new mongoose.Schema({
     images: {
         type: [
             {
-                image: {
-                    type: String,
-                    required: true,
-                },
                 originalname: {
                     type: String,
                     required: true,
@@ -19,13 +15,13 @@ var Upload = new mongoose.Schema({
         ],
         required: true,
     },
-    tags: {
-        type: Array,
-        required: true,
+    category: {
+        type: String,
+        required: false,
     },
     tags: {
-        type: category,
-        required: true,
+        type: [String],
+        required: false,
     },
     createdAt: {
         type: Date,
