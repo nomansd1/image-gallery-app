@@ -18,12 +18,14 @@ export default function Login() {
             [key]: e.target.value
         }))
     }
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault()
         dispatch(userlogin(userInput))
-        if (isSuccess) {
-            router.push('/')
-        }
+
     }
+    useEffect(() => {
+        if (isSuccess) { router.push('/') }
+    }, [isSuccess])
     return (
         <>
             {/* component */}
@@ -61,7 +63,7 @@ export default function Login() {
                 </div>
                 <div className="flex w-full lg:w-1/2 justify-center items-center bg-white space-y-8">
                     <div className="w-full px-8 md:px-32 lg:px-24">
-                        <form className="bg-white rounded-md shadow-2xl p-5" onSubmit={() => { handleSubmit() }}>
+                        <form className="bg-white rounded-md shadow-2xl p-5" onSubmit={(e) => { handleSubmit(e) }}>
                             <h1 className="text-gray-800 font-bold text-2xl mb-1">
                                 Hello Again!
                             </h1>

@@ -8,7 +8,8 @@ export default function SubscriptionModal(props) {
     let [message, setMessage] = useState('');
     let [success, setSuccess] = useState(false);
     let [sessionId, setSessionId] = useState('');
-    const { _id, username, email } = getUserInfo()
+    const { _id } = getUserInfo()
+    console.log(_id);
     useEffect(() => {
         // Check to see if this is a redirect back from Checkout
         const query = new URLSearchParams(window.location.search);
@@ -36,10 +37,6 @@ export default function SubscriptionModal(props) {
                 },
                 body: JSON.stringify({
                     _id: _id,
-                    email: email,
-                    username: username,
-                    plan: "monthly",
-                    lookup_key: "1234"
                 }),
             });
 

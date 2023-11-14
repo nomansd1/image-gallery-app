@@ -6,18 +6,46 @@ var Subscription = new mongoose.Schema({
     },
     plan: {
         type: String,
-        required: true,
+        required: false,
     },
     userEmail: {
         type: String,
-        required: true,
+        required: false,
     },
     userName: {
         type: String,
-        required: true,
+        required: false,
+    },
+    sessionId: {
+        type: String,
+        required: false,
     },
     subscriptionId: {
         type: String,
+        required: false,
+    },
+    mode: {
+        type: String,
+        required: false,
+    },
+    invoice: {
+        type: String,
+        required: false,
+    },
+    subscriptionId: {
+        type: String,
+        required: false,
+    },
+    startDate: {
+        type: String,
+        required: false,
+    },
+    endDate: {
+        type: String,
+        required: false,
+    },
+    durationInDays: {
+        type: Number,
         required: false,
     },
     createdAt: {
