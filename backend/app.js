@@ -4,12 +4,17 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
 
+
+const userLogin = require('./routes/auth');
+const userSignUp = require('./routes/auth');
+
 const subscriptionRoute = require('./routes/subscription');
 const getSubscriptionByIdRoute = require('./routes/subscription');
 const getPaymentSuccessRoute = require('./routes/subscription');
+
+const upload = require('./routes/uploadimage')
 // Import routes for authentication
-const userLogin = require('./routes/auth');
-const userSignUp = require('./routes/auth');
+
 const app = express();
 app.use(cors({ origin: '*' }));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -25,6 +30,8 @@ app.use((req, res, next) => {
   next();
 });
 
+
+
 // Routes
 app.use('/api/auth/', userLogin);
 app.use('/api/auth/', userSignUp);
@@ -33,5 +40,8 @@ app.use('/api/auth/', userSignUp);
 app.use('/api/subscribe/', subscriptionRoute);
 app.use('/api/subscribe/', getSubscriptionByIdRoute);
 app.use('/api/subscribe/', getPaymentSuccessRoute);
+
+//uploadImage
+app.use('/api/', upload);
 
 module.exports = app;
