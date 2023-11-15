@@ -9,7 +9,6 @@ export default function SubscriptionModal(props) {
     let [success, setSuccess] = useState(false);
     let [sessionId, setSessionId] = useState('');
     const { _id } = getUserInfo()
-    console.log(_id);
     useEffect(() => {
         // Check to see if this is a redirect back from Checkout
         const query = new URLSearchParams(window.location.search);

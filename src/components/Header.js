@@ -2,9 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import Link from 'next/link'
 import Sidebar from "./Sidebar";
 import { getUserInfo } from "@/utils/getUser";
+import { clearData } from "@/redux/features/auth/auth.slice";
+import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
 
 
 export default function Header() {
+    const { auth } = useSelector((state) => state.auth)
+    const dispatch = useDispatch()
     const optionArray = ['Photos', 'Videos'];
     const [openSelect, setOpenSelect] = useState(false);
     const [isSticky, setSticky] = useState(false);
@@ -40,8 +45,17 @@ export default function Header() {
             window.removeEventListener('scroll', handleScroll);
         };
     }, []); // Empty dependency array means this effect runs once when the component mounts
-
+    const route = useRouter()
     const data = getUserInfo()
+
+    const handleLogOut = () => {
+        localStorage.clear()
+        localStorage.removeItem("persist:root")
+        dispatch(clearData())
+        route.push('/login')
+    }
+    const type = typeof data
+    console.log(type);
     console.log(data);
     return (
         <>
@@ -101,7 +115,11 @@ export default function Header() {
                                 </svg>
                             </button>
                         </div>
-                        <button className="text-base capitalize px-5 rounded-md bg-[#167DD3] hover:bg-[#1471be] text-white h-[50px] font-medium hidden md:inline-flex items-center">join</button>
+                        {data?.length > 0 ? (
+                            <button className="text-base capitalize px-5 rounded-md bg-[#167DD3] hover:bg-[#1471be] text-white h-[50px] font-medium hidden md:inline-flex items-center" onClick={handleLogOut}>Logout</button>
+                        ) : (
+                            <button className="text-base capitalize px-5 rounded-md bg-[#167DD3] hover:bg-[#1471be] text-white h-[50px] font-medium hidden md:inline-flex items-center">join</button>
+                        )}
                         <button onClick={() => { setSidebar(true) }} className="ml-2 md:hidden">
                             <svg className="w-7 h-7 text-[#4a4a4a]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke-width="0"></g><g stroke-linecap="round" stroke-linejoin="round"></g><g><g><path d="M5 17H13M5 12H19M11 7H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg>
                         </button>
@@ -124,7 +142,7 @@ export default function Header() {
                                 </svg>
                             </button>
                         </div>{
-                            data ? (<span className="capitalize mr-[15px] px-2 text-white font-medium hidden md:inline-flex">Logout</span>) : (
+                            data?.length > 0 ? (<button onClick={() => handleLogOut} className="capitalize mr-[15px] px-2 text-white font-medium hidden md:inline-flex">Logout</button>) : (
                                 <button className="text-base capitalize px-5 rounded-md bg-white text-[#4a4a4a] h-[40px] md:h-[50px] font-medium"><Link href="/login">Login</Link></button>
                             )
                         }

@@ -21,11 +21,7 @@ export default function Login() {
     const handleSubmit = (e) => {
         e.preventDefault()
         dispatch(userlogin(userInput))
-
     }
-    useEffect(() => {
-        if (isSuccess) { router.push('/') }
-    }, [isSuccess])
     return (
         <>
             {/* component */}
