@@ -24,7 +24,6 @@ export const authSlice = createSlice({
             state.isSuccess = false
         })
         builder.addCase(getSubscription.fulfilled, (state, action) => {
-            console.log(action.payload, "getSubscription.fulfilled=====");
             state.isLoading = false
             state.isError = false
             state.isSuccess = true
@@ -53,12 +52,14 @@ export const authSlice = createSlice({
             state.isSuccess = false
         })
         builder.addCase(postSubscriptionSuccess.fulfilled, (state, action) => {
+            console.log(action,"postSubscriptionSuccess.fulfilled============");
             state.isLoading = false
             state.isError = false
             state.isSuccess = true
             state.subscriptions = action.payload
         })
         builder.addCase(postSubscriptionSuccess.rejected, (state, action) => {
+            console.log(action,"postSubscriptionSuccess.rejected============");
             toast.error("Something went wrong", {
                 position: "bottom-right",
                 autoClose: 5000,

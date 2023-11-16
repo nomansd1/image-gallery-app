@@ -13,7 +13,7 @@ export const getSubscription = createAsyncThunk(
                 null
             )
             if (response) {
-                return response.subscriptions
+                return response.updatedSubscription
             }
         } catch (error) {
             return thunkAPI.rejectWithValue(error.response)

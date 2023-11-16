@@ -8,7 +8,6 @@ export default function ImageGrid() {
     const [isOpen, setIsOpen] = useState(false)
     const [category, setCategory] = useState('Home')
     const handleOpenModal = (id) => {
-        console.log(id, "id");
         setIsOpen(true)
     }
     const handleCloseModal = (id) => {
@@ -25,7 +24,6 @@ export default function ImageGrid() {
             item
         })
     })
-    console.log(data, "imagesssssssssssssssssssss=====");
     return (
         <>
             <div className="max-w-screen-xl mx-auto p-7 md:p-14">

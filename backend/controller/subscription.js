@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const stripeSession = async (price, lookupKey) => {
-    const YOUR_DOMAIN = 'http://localhost:3000';
+    const YOUR_DOMAIN = 'https://legendary-palm-tree-gr95q756r5hwr7v-3000.app.github.dev';
     try {
         const session = await stripe.checkout.sessions.create({
             billing_address_collection: 'auto',

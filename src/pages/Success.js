@@ -11,16 +11,14 @@ export default function Success() {
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(getSubscription(_id))
-    }, [])
+    }, [dispatch])
     useEffect(() => {
         if (isError) {
             dispatch(clearState())
         }
     }, [dispatch])
-    console.log(subscriptions);
     const handleBackHone = () => {
         let data = {
-            _id: _id,
             sessionId: subscriptions.sessionId
         }
         dispatch(postSubscriptionSuccess(data))
