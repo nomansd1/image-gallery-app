@@ -3,12 +3,20 @@ import ReactModal from "react-modal"
 import SuccessDisplay from "../SubscriptionDisplay";
 import { getUserInfo } from "@/utils/getUser";
 import { BASE_URL } from "@/config/api";
+import { useRouter } from "next/router"
+import { useDispatch, useSelector } from "react-redux";
+import { createCheckOutSession } from "@/redux/features/subscriptionReducer";
 export default function SubscriptionModal(props) {
+    const  dispatch = useDispatch()
+    const { auth } = useSelector((state) => state.auth)
+    const router = useRouter()
     const { isOpen,handleClose } = props
     let [message, setMessage] = useState('');
     let [success, setSuccess] = useState(false);
     let [sessionId, setSessionId] = useState('');
-    const { _id } = getUserInfo()
+    const { _id = null } = getUserInfo();
+    console.log(_id,"_id====================");
+    const isAuthenticated = Boolean(auth && Object.keys(auth).length != 0);
     useEffect(() => {
         // Check to see if this is a redirect back from Checkout
         const query = new URLSearchParams(window.location.search);
@@ -16,7 +24,6 @@ export default function SubscriptionModal(props) {
             setSuccess(true);
             setSessionId(query.get('session_id'));
         }
-
         if (query.get('canceled')) {
             setSuccess(false);
             setMessage(
@@ -24,38 +31,23 @@ export default function SubscriptionModal(props) {
             );
         }
     }, [sessionId]);
+    console.log(sessionId,"sessionId===============");
     const handleCheckout = async (event) => {
         event.preventDefault();
         try {
-            // Make an API call to create a checkout session
-            const response = await fetch(`${BASE_URL}/api/subscribe/create-checkout-session`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
-                },
-                body: JSON.stringify({
-                    _id: _id,
-                }),
-            });
-
-            if (response.ok) {
-                // Handle success, redirect to the provided URL
-                const result = await response.json();
-                console.log('Checkout session created:', result);
-
-                // Redirect to the provided URL
-                window.location.href = result.result.redirectUrl;
-            } else {
-                // Handle error
-                console.error('Error creating checkout session');
+            if(isAuthenticated === false){
+                router.push('/login')
+            }
+            else{
+                let data = {
+                    _id:_id
+                }
+                dispatch(createCheckOutSession(data))
             }
         } catch (error) {
             console.error('Error:', error);
         }
     };
-
-
     return (
         <ReactModal
             isOpen={isOpen}

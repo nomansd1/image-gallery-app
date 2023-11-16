@@ -14,6 +14,7 @@ const getPaymentSuccessRoute = require('./routes/subscription');
 
 const upload = require('./routes/uploadimage')
 const getImagesByCategory = require('./routes/uploadimage')
+const getImagesByTag = require('./routes/uploadimage')
 // Import routes for authentication
 
 const app = express();
@@ -47,4 +48,5 @@ app.use('/api/subscribe/', getPaymentSuccessRoute);
 //uploadImage
 app.use('/api/', upload);
 app.use('/api/', getImagesByCategory)
+app.use('/api/', getImagesByTag)
 module.exports = app;

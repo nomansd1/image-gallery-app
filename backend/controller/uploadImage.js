@@ -8,7 +8,7 @@ const upload = multer({
     storage: multerS3({
         s3: s3,
         // bucket: process.env.AWS_BUCKET,
-        bucket:"my-image-gallery001",
+        bucket: "my-image-gallery001",
         contentType: multerS3.AUTO_CONTENT_TYPE,
         acl: 'public-read',
         key: function (req, file, cb) {
@@ -66,9 +66,30 @@ const getImagesByCategory = async (req, res) => {
         res.status(500).json({ error: 'Something went wrong' });
     }
 };
-
+const getImagesByTag = async (req, res) => {
+    const queryParams = req.query.tag;
+    console.log(queryParams, "queryParams");
+    try {
+        let records;
+        // If query parameters are provided, retrieve records that match the tags
+        if (Object.keys(queryParams).length > 0) {
+            // Construct the query based on the provided parameters
+            const query = {
+                "tags": { $in: queryParams }
+            };
+            console.log(query, "query");
+            records = await Upload.find(query).exec();
+            res.status(200).send(records);
+            console.log(records);
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Something went wrong' });
+    }
+};
 module.exports = {
     getImagesByCategory,
     uploadImageController,
-    upload
+    upload,
+    getImagesByTag
 };

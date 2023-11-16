@@ -55,7 +55,6 @@ export default function Header() {
         route.push('/login')
     }
     const isAuthenticated = Boolean(auth && Object.keys(auth).length != 0);
-    console.log(isAuthenticated,"isAuthenticated=============");
     return (
         <>
             {isSticky ?
