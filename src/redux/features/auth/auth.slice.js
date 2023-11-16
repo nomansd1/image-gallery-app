@@ -57,8 +57,8 @@ export const authSlice = createSlice({
       state.isSuccess = true
     })
     builder.addCase(userSignUp.rejected, (state, action) => {
-      console.log(action);
-      toast.error(action.payload.data.error || action.payload.data, {
+      console.log(action,"=========================");
+      toast.error("Somthing went wrong", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,

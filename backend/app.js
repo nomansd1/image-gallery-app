@@ -13,6 +13,7 @@ const getSubscriptionByIdRoute = require('./routes/subscription');
 const getPaymentSuccessRoute = require('./routes/subscription');
 
 const upload = require('./routes/uploadimage')
+const getImagesByCategory = require('./routes/uploadimage')
 // Import routes for authentication
 
 const app = express();
@@ -31,7 +32,9 @@ app.use((req, res, next) => {
 });
 
 
-
+app.get('/', (req, res) => {
+  res.send("GET Request Called ====================>")
+})
 // Routes
 app.use('/api/auth/', userLogin);
 app.use('/api/auth/', userSignUp);
@@ -43,5 +46,5 @@ app.use('/api/subscribe/', getPaymentSuccessRoute);
 
 //uploadImage
 app.use('/api/', upload);
-
+app.use('/api/', getImagesByCategory)
 module.exports = app;
