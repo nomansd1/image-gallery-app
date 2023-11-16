@@ -5,6 +5,7 @@ import { Button, Upload, Select, Input, Space, Tag, theme, Tooltip } from 'antd'
 import { useDispatch } from 'react-redux';
 import { postImagesByCategory } from '@/redux/features/gallery/galleryReducer';
 export default function UploadImage() {
+    const dispatch = useDispatch()
     const [category, setCategory] = useState('')
     const handleChange = (value) => {
         setCategory(value)
@@ -153,7 +154,7 @@ export default function UploadImage() {
         });
         formData.append('category', category);
         try {  
-            useDispatch(postImagesByCategory())
+            dispatch(postImagesByCategory(formData))
         } catch (error) {
             console.error('Error:', error);
         }

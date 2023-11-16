@@ -68,7 +68,7 @@ export const imageGallerySlice = createSlice({
             state.isLoading = false
             state.isError = false
             state.isSuccess = true
-            state.images = action.payload
+            state.images.unshift(action.payload)
         })
         builder.addCase(postImagesByCategory.rejected, (state, action) => {
             console.log(action, "postImagesByCategory.rejected=====");
