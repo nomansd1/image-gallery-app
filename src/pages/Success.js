@@ -7,22 +7,23 @@ import { useRouter } from 'next/router'
 export default function Success() {
     const route = useRouter()
     const { subscriptions, isError, isSuccess } = useSelector((state) => state.subscription)
+    console.log(subscriptions.sessionId,"sessionId");
     const { _id } = getUserInfo()
     const dispatch = useDispatch()
-    useEffect(() => {
-        dispatch(getSubscription(_id))
-    }, [dispatch])
-    useEffect(() => {
-        if (isError) {
-            dispatch(clearState())
-        }
-    }, [dispatch])
+    // useEffect(() => {
+    //     dispatch(getSubscription(_id))
+    // }, [dispatch])
     const handleBackHone = () => {
         let data = {
             sessionId: subscriptions.sessionId
         }
-        dispatch(postSubscriptionSuccess(data))
-        route.push('/')
+        try{
+            dispatch(postSubscriptionSuccess(data))
+        }
+        catch(e){
+            console.log(e);
+        }
+        // route.push('/')
     }
     useEffect(() => {
         if (isError) {

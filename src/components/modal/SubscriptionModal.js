@@ -4,8 +4,10 @@ import SuccessDisplay from "../SubscriptionDisplay";
 import { getUserInfo } from "@/utils/getUser";
 import { BASE_URL } from "@/config/api";
 import { useRouter } from "next/router"
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { createCheckOutSession } from "@/redux/features/subscriptionReducer";
 export default function SubscriptionModal(props) {
+    const  dispatch = useDispatch()
     const { auth } = useSelector((state) => state.auth)
     const router = useRouter()
     const { isOpen,handleClose } = props
@@ -13,6 +15,7 @@ export default function SubscriptionModal(props) {
     let [success, setSuccess] = useState(false);
     let [sessionId, setSessionId] = useState('');
     const { _id = null } = getUserInfo();
+    console.log(_id,"_id====================");
     const isAuthenticated = Boolean(auth && Object.keys(auth).length != 0);
     useEffect(() => {
         // Check to see if this is a redirect back from Checkout
@@ -28,6 +31,7 @@ export default function SubscriptionModal(props) {
             );
         }
     }, [sessionId]);
+    console.log(sessionId,"sessionId===============");
     const handleCheckout = async (event) => {
         event.preventDefault();
         try {
@@ -35,24 +39,10 @@ export default function SubscriptionModal(props) {
                 router.push('/login')
             }
             else{
-            const response = await fetch(`${BASE_URL}/api/subscribe/create-checkout-session`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
-                },
-                body: JSON.stringify({
-                    _id: _id,
-                }),
-            });
-            if (response.ok) {
-                const result = await response.json();
-                console.log('Checkout session created:', result);
-                window.location.href = result.result.redirectUrl;
-            } else {
-                // Handle error
-                console.error('Error creating checkout session');
-            }
+                let data = {
+                    _id:_id
+                }
+                dispatch(createCheckOutSession(data))
             }
         } catch (error) {
             console.error('Error:', error);

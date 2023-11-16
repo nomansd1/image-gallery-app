@@ -13,7 +13,27 @@ export const getSubscription = createAsyncThunk(
                 null
             )
             if (response) {
-                return response.updatedSubscription
+                return response.result
+            }
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response)
+        }
+    }
+)
+export const createCheckOutSession = createAsyncThunk(
+    "subscription/createCheckOutSession",
+    async (data, thunkAPI) => {
+        console.log(data,'data');
+        try {
+            let response = await makeRequest(
+                `${BASE_URL}/api/subscribe/create-checkout-session`,
+                "POST",
+                data,
+                null
+            )
+            if (response) {
+                console.log(response,"response");
+                return response.result
             }
         } catch (error) {
             return thunkAPI.rejectWithValue(error.response)
@@ -23,15 +43,17 @@ export const getSubscription = createAsyncThunk(
 export const postSubscriptionSuccess = createAsyncThunk(
     "subscription/postSubscriptionSuccess",
     async (data, thunkAPI) => {
+        console.log(data,"data============");
         try {
             let response = await makeRequest(
-                `${BASE_URL}/api/subscribe/payment-success/`,
+                `${BASE_URL}/api/subscribe/payment-success`,
                 "POST",
                 data,
                 null
             )
             if (response) {
-                return response.updatedSubscription
+                console.log(response,"response");
+                return response
             }
         } catch (error) {
             return thunkAPI.rejectWithValue(error.response)

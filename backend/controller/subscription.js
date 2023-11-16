@@ -31,7 +31,7 @@ const postSubscription = async (req, res) => {
     try {
         const session = await stripeSession(price);
         console.log(session, "session=============");
-        console.log(_id, "_id===================");
+        console.log(req.body, "req.body");
         const result = new subscription({
             userId: _id,
             sessionId: session.id,
@@ -43,7 +43,6 @@ const postSubscription = async (req, res) => {
                 sessionId: data.sessionId,
                 createdAt: data.createdAt,
                 redirectUrl: session.url,
-                session: session
             },
         });
     } catch (error) {
