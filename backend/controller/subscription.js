@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const stripe = require('stripe')("sk_test_51HueyACuy52IK8zWn9Ef86gep5H2mOfUzzG7RyVTKljxYxbvFGkPFGDfhrmo3zOLIrjkGWMtdAggOTPTjkbzbqfA00I2P1sDa0");
 const stripeSession = async (price, lookupKey) => {
-    const YOUR_DOMAIN = 'http://localhost:3000';
+    const YOUR_DOMAIN = 'https://suimage-gallery.vercel.app';
     try {
         const session = await stripe.checkout.sessions.create({
             billing_address_collection: 'auto',
