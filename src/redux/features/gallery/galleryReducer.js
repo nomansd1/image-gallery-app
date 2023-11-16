@@ -19,3 +19,21 @@ export const getImagesByCategory = createAsyncThunk(
         }
     }
 )
+export const postImagesByCategory = createAsyncThunk(
+    "imageGallery/postImagesByCategory",
+    async (data, thunkAPI) => {
+        try {
+            let response = await makeRequest(
+                `${BASE_URL}/api/upload/`,
+                "POST",
+                data,
+                null
+            )
+            if (response) {
+                return response
+            }
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response)
+        }
+    }
+)

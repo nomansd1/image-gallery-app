@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { UploadOutlined } from '@ant-design/icons';
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, Upload, Select, Input, Space, Tag, theme, Tooltip } from 'antd';
+import { useDispatch } from 'react-redux';
 export default function UploadImage() {
     const [category, setCategory] = useState('')
     const handleChange = (value) => {
@@ -138,6 +139,7 @@ export default function UploadImage() {
         );
 
     }
+    const dispatch = useDispatch()
     console.log(tags || tags.split(','));
     const handleUpload = async (e) => {
         e.preventDefault();
@@ -154,10 +156,10 @@ export default function UploadImage() {
 
         // Append other form fields
         formData.append('category', category);
-
         // Send a POST request to your backend
         try {
-            const response = await fetch('http://localhost:8000/api/upload', {
+            
+            const response = await fetch('https://legendary-palm-tree-gr95q756r5hwr7v-8000.app.github.dev/api/upload', {
                 method: 'POST',
                 body: formData,
             });

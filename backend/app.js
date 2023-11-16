@@ -32,7 +32,9 @@ app.use((req, res, next) => {
 });
 
 
-
+app.get('/', (req, res) => {
+  res.send("GET Request Called ====================>")
+})
 // Routes
 app.use('/api/auth/', userLogin);
 app.use('/api/auth/', userSignUp);

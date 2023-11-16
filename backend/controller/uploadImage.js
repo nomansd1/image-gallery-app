@@ -7,7 +7,8 @@ const s3 = require('../util/s3.util');
 const upload = multer({
     storage: multerS3({
         s3: s3,
-        bucket: process.env.AWS_BUCKET,
+        // bucket: process.env.AWS_BUCKET,
+        bucket:"my-image-gallery001",
         contentType: multerS3.AUTO_CONTENT_TYPE,
         acl: 'public-read',
         key: function (req, file, cb) {
