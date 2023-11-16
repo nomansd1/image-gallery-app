@@ -4,7 +4,7 @@ import SuccessDisplay from "../SubscriptionDisplay";
 import { getUserInfo } from "@/utils/getUser";
 import { BASE_URL } from "@/config/api";
 export default function SubscriptionModal(props) {
-    const { isOpen } = props
+    const { isOpen,handleClose } = props
     let [message, setMessage] = useState('');
     let [success, setSuccess] = useState(false);
     let [sessionId, setSessionId] = useState('');
@@ -93,9 +93,22 @@ export default function SubscriptionModal(props) {
                 {
                     !success && message === '' ? (
                         <div className="min-w-full">
-                            <p className="text-[#00153B] text-[20px] leading-[40px] font-semibold">
+                            <div className="flex justify-between">
+                                <div>
+                                <p className="text-[#00153B] text-[20px] leading-[40px] font-semibold">
                                 Your Subscription
                             </p>
+                                </div>
+                                <div>
+                                <button onClick={handleClose} type="button" class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+              <span class="sr-only">Close menu</span>
+              <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+                                </div>
+                            </div>
+                            
                             <div>
                                 <p className="text-[#717F87] text-[15px] leading-[27px] font-medium">
                                     Aliquam sagittis sapien in nibh tincidunt fermentum. Morbi eleifend

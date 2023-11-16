@@ -55,6 +55,16 @@ export const imageGallerySlice = createSlice({
         })
         builder.addCase(postImagesByCategory.fulfilled, (state, action) => {
             console.log(action, "postImagesByCategory.fulfilled=====");
+            toast.success("Upload Successfully", {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light"
+            })
             state.isLoading = false
             state.isError = false
             state.isSuccess = true

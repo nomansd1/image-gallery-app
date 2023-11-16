@@ -11,6 +11,9 @@ export default function ImageGrid() {
         console.log(id, "id");
         setIsOpen(true)
     }
+    const handleCloseModal = (id) => {
+        setIsOpen(false)
+    }
     const handleCategory = (item) => {
         setCategory(item)
     }
@@ -162,7 +165,7 @@ export default function ImageGrid() {
 
 
             </div>
-            <SubscriptionModal isOpen={isOpen} />
+            <SubscriptionModal isOpen={isOpen} handleClose={handleCloseModal} />
         </>
     )
 }

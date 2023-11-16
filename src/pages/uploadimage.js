@@ -3,6 +3,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, Upload, Select, Input, Space, Tag, theme, Tooltip } from 'antd';
 import { useDispatch } from 'react-redux';
+import { postImagesByCategory } from '@/redux/features/gallery/galleryReducer';
 export default function UploadImage() {
     const [category, setCategory] = useState('')
     const handleChange = (value) => {
@@ -139,8 +140,6 @@ export default function UploadImage() {
         );
 
     }
-    const dispatch = useDispatch()
-    console.log(tags || tags.split(','));
     const handleUpload = async (e) => {
         e.preventDefault();
         const formData = new FormData();
@@ -148,36 +147,17 @@ export default function UploadImage() {
         tags.forEach((tag, index) => {
             formData.append('tag', tag);
         });
-
         // Append files
         file.fileList.forEach((file, index) => {
             formData.append('image', file.originFileObj);
         });
-
-        // Append other form fields
         formData.append('category', category);
-        // Send a POST request to your backend
-        try {
-            
-            const response = await fetch('https://legendary-palm-tree-gr95q756r5hwr7v-8000.app.github.dev/api/upload', {
-                method: 'POST',
-                body: formData,
-            });
-
-            if (response.ok) {
-                // Handle success
-                const result = await response.json();
-                console.log('Upload successful:', result);
-            } else {
-                // Handle error
-                console.error('Upload failed');
-            }
+        try {  
+            useDispatch(postImagesByCategory())
         } catch (error) {
             console.error('Error:', error);
         }
     };
-
-    console.log(file);
     return (
         <>
             {/* component */}
