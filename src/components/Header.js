@@ -54,9 +54,8 @@ export default function Header() {
         dispatch(clearData())
         route.push('/login')
     }
-    const type = typeof data
-    console.log(type);
-    console.log(data);
+    const isAuthenticated = Boolean(auth && Object.keys(auth).length != 0);
+    console.log(isAuthenticated,"isAuthenticated=============");
     return (
         <>
             {isSticky ?
@@ -115,7 +114,7 @@ export default function Header() {
                                 </svg>
                             </button>
                         </div>
-                        {data?.length > 0 ? (
+                        {isAuthenticated ? (
                             <button className="text-base capitalize px-5 rounded-md bg-[#167DD3] hover:bg-[#1471be] text-white h-[50px] font-medium hidden md:inline-flex items-center" onClick={handleLogOut}>Logout</button>
                         ) : (
                             <button className="text-base capitalize px-5 rounded-md bg-[#167DD3] hover:bg-[#1471be] text-white h-[50px] font-medium hidden md:inline-flex items-center">join</button>
@@ -142,7 +141,7 @@ export default function Header() {
                                 </svg>
                             </button>
                         </div>{
-                            data?.length > 0 ? (<button onClick={() => handleLogOut} className="capitalize mr-[15px] px-2 text-white font-medium hidden md:inline-flex">Logout</button>) : (
+                            isAuthenticated ? (<button onClick={() => handleLogOut} className="capitalize mr-[15px] px-2 text-white font-medium hidden md:inline-flex">Logout</button>) : (
                                 <button className="text-base capitalize px-5 rounded-md bg-white text-[#4a4a4a] h-[40px] md:h-[50px] font-medium"><Link href="/login">Login</Link></button>
                             )
                         }

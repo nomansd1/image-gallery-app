@@ -4,9 +4,10 @@ import Link from 'next/link'
 import { useDispatch, useSelector } from 'react-redux'
 import { userlogin } from '@/redux/features/auth/authReducer'
 import { useRouter } from 'next/navigation'
+import PublicRoute from '@/components/PublicRoute'
 export default function Login() {
     const router = useRouter()
-    const { isSuccess } = useSelector((state) => state.auth)
+    const { isLoading,isSuccess } = useSelector((state) => state.auth)
     const dispatch = useDispatch()
     const [userInput, setUserInput] = useState({
         email: '',
@@ -22,8 +23,13 @@ export default function Login() {
         e.preventDefault()
         dispatch(userlogin(userInput))
     }
+    useEffect(()=>{
+        if(!isLoading && isSuccess){
+            router.push('/')
+        }
+    },[dispatch])
     return (
-        <>
+        <PublicRoute>
             {/* component */}
             <style
                 dangerouslySetInnerHTML={{
@@ -133,6 +139,6 @@ export default function Login() {
                     </div>
                 </div>
             </div>
-        </>
+        </PublicRoute>
     )
 }
