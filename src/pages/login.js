@@ -5,9 +5,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { userlogin } from '@/redux/features/auth/authReducer'
 import { useRouter } from 'next/navigation'
 import PublicRoute from '@/components/PublicRoute'
+import { clearState } from '@/redux/features/auth/auth.slice'
 export default function Login() {
     const router = useRouter()
-    const { isLoading,isSuccess } = useSelector((state) => state.auth)
+    const { auth,isLoading,isSuccess,isError } = useSelector((state) => state.auth)
     const dispatch = useDispatch()
     const [userInput, setUserInput] = useState({
         email: '',
@@ -22,12 +23,18 @@ export default function Login() {
     const handleSubmit = (e) => {
         e.preventDefault()
         dispatch(userlogin(userInput))
+        if(isSuccess){
+            router.push('/')
+        }
     }
-    // useEffect(() => {
-    //     if (!isLoading && isSuccess) {
-    //       router.push('/');
-    //     }
-    //   }, [isSuccess, isLoading, router]);
+    useEffect(() => {
+        if (auth && auth._id) {
+            router.push('/')
+          }
+          if (isError) {
+            dispatch(clearState());
+          }
+    },[]);
     return (
         <PublicRoute>
             {/* component */}

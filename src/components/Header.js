@@ -52,7 +52,7 @@ export default function Header() {
         localStorage.clear()
         localStorage.removeItem("persist:root")
         dispatch(clearData())
-        route.push('/login')
+        route.push('/')
     }
     const isAuthenticated = Boolean(auth && Object.keys(auth).length != 0);
     return (

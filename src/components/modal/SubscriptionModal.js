@@ -14,8 +14,6 @@ export default function SubscriptionModal(props) {
     let [message, setMessage] = useState('');
     let [success, setSuccess] = useState(false);
     let [sessionId, setSessionId] = useState('');
-    const { _id = null } = getUserInfo();
-    console.log(_id,"_id====================");
     const isAuthenticated = Boolean(auth && Object.keys(auth).length != 0);
     useEffect(() => {
         // Check to see if this is a redirect back from Checkout
@@ -40,7 +38,7 @@ export default function SubscriptionModal(props) {
             }
             else{
                 let data = {
-                    _id:_id
+                    _id:auth?._id
                 }
                 dispatch(createCheckOutSession(data))
             }
