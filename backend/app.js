@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
 
-
 const userLogin = require('./routes/auth');
 const userSignUp = require('./routes/auth');
 
@@ -15,6 +14,7 @@ const getPaymentSuccessRoute = require('./routes/subscription');
 const upload = require('./routes/uploadimage')
 const getImagesByCategory = require('./routes/uploadimage')
 const getImagesByTag = require('./routes/uploadimage')
+const downloadImage = require('./routes/uploadimage')
 // Import routes for authentication
 
 const app = express();
@@ -33,9 +33,7 @@ app.use((req, res, next) => {
 });
 
 
-app.get('/', (req, res) => {
-  res.send("GET Request Called ====================>")
-})
+
 // Routes
 app.use('/api/auth/', userLogin);
 app.use('/api/auth/', userSignUp);
@@ -49,4 +47,5 @@ app.use('/api/subscribe/', getPaymentSuccessRoute);
 app.use('/api/', upload);
 app.use('/api/', getImagesByCategory)
 app.use('/api/', getImagesByTag)
+app.use('/api/', downloadImage)
 module.exports = app;

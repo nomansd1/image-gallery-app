@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import SubscriptionModal from "./modal/SubscriptionModal"
 import { useDispatch, useSelector } from "react-redux"
 import { getImagesByCategory } from "@/redux/features/gallery/galleryReducer"
+import axios from "axios"
 export default function ImageGrid() {
     const { images } = useSelector((state) => state.gallery)
     const dispatch = useDispatch()
@@ -24,6 +25,29 @@ export default function ImageGrid() {
             item
         })
     })
+      //Download the  QR Code
+  const handledownloadImage = item => {
+  axios.get('https://legendary-palm-tree-gr95q756r5hwr7v-8000.app.github.dev/api/downloadImage/', {
+  params: {
+    url: item,
+  },
+  responseType: 'blob', // Set the response type to 'blob' to handle binary data (e.g., images)
+})
+  .then(response => {
+    // Create a link element to trigger the download
+    const downloadLink = document.createElement('a');
+    downloadLink.href = URL.createObjectURL(new Blob([response.data]));
+    downloadLink.download = 'downloaded-image.jpg';
+    // Append the link to the body and trigger the click event
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    // Clean up
+    document.body.removeChild(downloadLink);
+  })
+  .catch(error => {
+    console.error('Error downloading image:', error);
+  });
+  }
     return (
         <>
             <div className="max-w-screen-xl mx-auto p-7 md:p-14">
@@ -92,6 +116,7 @@ export default function ImageGrid() {
                                         {
                                             images?.length > 0 ? (
                                                 images?.map((item, index) => {
+                                                    console.log(item?.images[index]?.originalname,"item?.images[index]");
                                                     return (
                                                         <>
     
@@ -111,13 +136,16 @@ export default function ImageGrid() {
                                                                                 <h1 className="text-sm font-medium text-white ml-2 text-ellipsis whitespace-nowrap overflow-hidden">Justin Topley</h1>
                                                                             </div>
                                                                             <div>
-                                                                                <button onClick={() => { handleOpenModal(item?.id) }} className="px-2 py-1.5 rounded-md bg-white">
+                                                                                {/* <button onClick={() => { handleOpenModal(item?.id) }} className="px-2 py-1.5 rounded-md bg-white">
+                                                                                    <svg className="w-6 h-6 text-[#4a4a4a]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke-width="0"></g><g stroke-linecap="round" stroke-linejoin="round"></g><g > <path d="M12.5535 16.5061C12.4114 16.6615 12.2106 16.75 12 16.75C11.7894 16.75 11.5886 16.6615 11.4465 16.5061L7.44648 12.1311C7.16698 11.8254 7.18822 11.351 7.49392 11.0715C7.79963 10.792 8.27402 10.8132 8.55352 11.1189L11.25 14.0682V3C11.25 2.58579 11.5858 2.25 12 2.25C12.4142 2.25 12.75 2.58579 12.75 3V14.0682L15.4465 11.1189C15.726 10.8132 16.2004 10.792 16.5061 11.0715C16.8118 11.351 16.833 11.8254 16.5535 12.1311L12.5535 16.5061Z" fill="#1C274C"></path> <path d="M3.75 15C3.75 14.5858 3.41422 14.25 3 14.25C2.58579 14.25 2.25 14.5858 2.25 15V15.0549C2.24998 16.4225 2.24996 17.5248 2.36652 18.3918C2.48754 19.2919 2.74643 20.0497 3.34835 20.6516C3.95027 21.2536 4.70814 21.5125 5.60825 21.6335C6.47522 21.75 7.57754 21.75 8.94513 21.75H15.0549C16.4225 21.75 17.5248 21.75 18.3918 21.6335C19.2919 21.5125 20.0497 21.2536 20.6517 20.6516C21.2536 20.0497 21.5125 19.2919 21.6335 18.3918C21.75 17.5248 21.75 16.4225 21.75 15.0549V15C21.75 14.5858 21.4142 14.25 21 14.25C20.5858 14.25 20.25 14.5858 20.25 15C20.25 16.4354 20.2484 17.4365 20.1469 18.1919C20.0482 18.9257 19.8678 19.3142 19.591 19.591C19.3142 19.8678 18.9257 20.0482 18.1919 20.1469C17.4365 20.2484 16.4354 20.25 15 20.25H9C7.56459 20.25 6.56347 20.2484 5.80812 20.1469C5.07435 20.0482 4.68577 19.8678 4.40901 19.591C4.13225 19.3142 3.9518 18.9257 3.85315 18.1919C3.75159 17.4365 3.75 16.4354 3.75 15Z" fill="currentColor"></path> </g></svg>
+                                                                                </button> */}
+                                                                                <button onClick={()=>{handledownloadImage(item?.images[index]?.location)}}className="px-2 py-1.5 rounded-md bg-white">
                                                                                     <svg className="w-6 h-6 text-[#4a4a4a]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke-width="0"></g><g stroke-linecap="round" stroke-linejoin="round"></g><g > <path d="M12.5535 16.5061C12.4114 16.6615 12.2106 16.75 12 16.75C11.7894 16.75 11.5886 16.6615 11.4465 16.5061L7.44648 12.1311C7.16698 11.8254 7.18822 11.351 7.49392 11.0715C7.79963 10.792 8.27402 10.8132 8.55352 11.1189L11.25 14.0682V3C11.25 2.58579 11.5858 2.25 12 2.25C12.4142 2.25 12.75 2.58579 12.75 3V14.0682L15.4465 11.1189C15.726 10.8132 16.2004 10.792 16.5061 11.0715C16.8118 11.351 16.833 11.8254 16.5535 12.1311L12.5535 16.5061Z" fill="#1C274C"></path> <path d="M3.75 15C3.75 14.5858 3.41422 14.25 3 14.25C2.58579 14.25 2.25 14.5858 2.25 15V15.0549C2.24998 16.4225 2.24996 17.5248 2.36652 18.3918C2.48754 19.2919 2.74643 20.0497 3.34835 20.6516C3.95027 21.2536 4.70814 21.5125 5.60825 21.6335C6.47522 21.75 7.57754 21.75 8.94513 21.75H15.0549C16.4225 21.75 17.5248 21.75 18.3918 21.6335C19.2919 21.5125 20.0497 21.2536 20.6517 20.6516C21.2536 20.0497 21.5125 19.2919 21.6335 18.3918C21.75 17.5248 21.75 16.4225 21.75 15.0549V15C21.75 14.5858 21.4142 14.25 21 14.25C20.5858 14.25 20.25 14.5858 20.25 15C20.25 16.4354 20.2484 17.4365 20.1469 18.1919C20.0482 18.9257 19.8678 19.3142 19.591 19.591C19.3142 19.8678 18.9257 20.0482 18.1919 20.1469C17.4365 20.2484 16.4354 20.25 15 20.25H9C7.56459 20.25 6.56347 20.2484 5.80812 20.1469C5.07435 20.0482 4.68577 19.8678 4.40901 19.591C4.13225 19.3142 3.9518 18.9257 3.85315 18.1919C3.75159 17.4365 3.75 16.4354 3.75 15Z" fill="currentColor"></path> </g></svg>
                                                                                 </button>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <img class="h-auto max-w-full rounded-lg" src={item?.images[index]?.location} alt="" />
+                                                                    <img class="h-auto max-w-full rounded-lg" src={item?.images[index]?.location} alt={item?.images[index]?.originalname} id={item?.images[index]?.originalname} />
                                                                 </div>
                                                             </div>
     

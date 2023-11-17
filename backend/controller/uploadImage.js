@@ -3,6 +3,9 @@ const multer = require('multer');
 const Upload = require('../models/images')
 const multerS3 = require('multer-s3');
 const s3 = require('../util/s3.util');
+const axios = require('axios');
+const fs = require('fs');
+const path = require('path');
 
 const upload = multer({
     storage: multerS3({
@@ -87,9 +90,35 @@ const getImagesByTag = async (req, res) => {
         res.status(500).json({ error: 'Something went wrong' });
     }
 };
+const downloadImage = async (req, res) => {
+    try {
+        const imageUrl = req.query.url; // Get the image URL from the query parameters
+        const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+        const contentType = response.headers['content-type'];
+        const extension = contentType.split('/')[1];
+    
+        const fileName = `downloaded-image.${extension}`;
+        const filePath = path.join(__dirname, fileName);
+    
+        fs.writeFileSync(filePath, Buffer.from(response.data));
+    
+        res.download(filePath, fileName, (err) => {
+          if (err) {
+            console.error(err);
+            res.status(500).send('Internal Server Error');
+          }
+          // Remove the downloaded file after sending
+          fs.unlinkSync(filePath);
+        });
+      } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+      }
+};
 module.exports = {
     getImagesByCategory,
     uploadImageController,
     upload,
-    getImagesByTag
+    getImagesByTag,
+    downloadImage
 };
