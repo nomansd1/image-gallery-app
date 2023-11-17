@@ -52,13 +52,11 @@ const postSubscription = async (req, res) => {
     }
 };
 const getSubscriptionByUserId = async (req, res) => {
-    const userId = req.params.id;
-    console.log(userId, "userId================");
     try {
         const subscriptions = await subscription.findOne({
-            userId: userId
+            userId: req.params.id
         });
-
+        console.log(subscriptions);
         if (!subscriptions || subscriptions.length === 0) {
             return res.status(404).send({ error: 'Not found' });
         }

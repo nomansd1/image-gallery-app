@@ -19,17 +19,20 @@ export const authSlice = createSlice({
     },
     extraReducers: builder => {
         builder.addCase(getSubscription.pending, state => {
+            console.log(state,"getSubscription.pending");
             state.isLoading = true
             state.isError = false
             state.isSuccess = false
         })
         builder.addCase(getSubscription.fulfilled, (state, action) => {
+            console.log(action,"getSubscription.fulfilled");
             state.isLoading = false
             state.isError = false
             state.isSuccess = true
             state.subscriptions = action.payload
         })
         builder.addCase(getSubscription.rejected, (state, action) => {
+            console.log(action,"getSubscription.rejected");
             toast.error("Something went wrong", {
                 position: "bottom-right",
                 autoClose: 5000,

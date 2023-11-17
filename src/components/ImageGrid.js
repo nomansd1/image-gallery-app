@@ -3,9 +3,13 @@ import SubscriptionModal from "./modal/SubscriptionModal"
 import { useDispatch, useSelector } from "react-redux"
 import { getImagesByCategory } from "@/redux/features/gallery/galleryReducer"
 import axios from "axios"
+import { getSubscription } from "@/redux/features/subscriptionReducer"
 export default function ImageGrid() {
     const { images } = useSelector((state) => state.gallery)
+    const { auth } = useSelector((state) => state.auth)
+    const { subscriptions, isError, isSuccess } = useSelector((state) => state.subscription)
     const dispatch = useDispatch()
+    console.log(subscriptions,"subscription===========================");
     const [isOpen, setIsOpen] = useState(false)
     const [category, setCategory] = useState('Home')
     const handleOpenModal = (id) => {
@@ -48,6 +52,9 @@ export default function ImageGrid() {
     console.error('Error downloading image:', error);
   });
   }
+  useEffect(() => {
+    dispatch(getSubscription(auth?._id))
+}, [dispatch])
     return (
         <>
             <div className="max-w-screen-xl mx-auto p-7 md:p-14">

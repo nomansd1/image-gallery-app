@@ -23,11 +23,11 @@ export default function Login() {
         e.preventDefault()
         dispatch(userlogin(userInput))
     }
-    useEffect(() => {
-        if (!isLoading && isSuccess) {
-          router.push('/');
-        }
-      }, [isSuccess, isLoading, router]);
+    // useEffect(() => {
+    //     if (!isLoading && isSuccess) {
+    //       router.push('/');
+    //     }
+    //   }, [isSuccess, isLoading, router]);
     return (
         <PublicRoute>
             {/* component */}
